@@ -11,7 +11,7 @@ namespace ArcamFullPick
         static Dictionary<string, double> hashs = [];
         public static void Main(string[] args)
         {
-            Arcam.Main.Loggers.LoggerConfigurator.Configure(true);
+            Arcam.Main.Loggers.LoggerConfigurator.Configure(Arcam.Main.Loggers.LoggerConfigurator.LogType.test);
             var logger = LogManager.GetCurrentClassLogger();
             using var db = new ApplicationContext();
             var flag = false;
