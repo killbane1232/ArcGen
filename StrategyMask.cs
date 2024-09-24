@@ -1,4 +1,5 @@
-﻿using Arcam.Data.DataBase;
+﻿using Arcam.Data.ClickHouse;
+using Arcam.Data.DataBase;
 using Arcam.Data.DataBase.DBTypes;
 
 namespace ArcamFullPick
@@ -33,7 +34,7 @@ namespace ArcamFullPick
         static object locker = new object();
         public Strategy GetStrategy(List<int> paramValues, bool silent = false)
         {
-            using var db = new ApplicationContext();
+            using var db = new TestContext();
 
             var strat = new Strategy
             {
@@ -99,7 +100,8 @@ namespace ArcamFullPick
 
             if (!silent)
             {
-                var copies = db.TestStrategy.Where(x => x.StrategyHash == strat.GetHashCode()).Count();
+                using var ch = new ClickHouseContext();
+                var copies = ch.TestStrategy.Where(x => x.StrategyHash == strat.GetHashCode()).Count();
                 if (copies == 0)
                     db.SaveChanges();
             }
